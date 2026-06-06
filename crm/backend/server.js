@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// ─── In-Memory Database (swap with MongoDB/PostgreSQL in production) ───────────
+
 let leads = [
   {
     id: uuidv4(),
@@ -69,7 +69,7 @@ let leads = [
 
 const VALID_STATUSES = ['New', 'Contacted', 'Qualified', 'Converted', 'Lost'];
 
-// ─── Validation Helper ─────────────────────────────────────────────────────────
+
 function validateLead(data, isUpdate = false) {
   const errors = [];
   if (!isUpdate) {
@@ -87,7 +87,7 @@ function validateLead(data, isUpdate = false) {
   return errors;
 }
 
-// ─── GET /api/leads — list with search, filter, sort, paginate ─────────────────
+
 app.get('/api/leads', (req, res) => {
   let result = [...leads];
 
@@ -107,7 +107,7 @@ app.get('/api/leads', (req, res) => {
     result = result.filter(l => l.status === status);
   }
 
-  // Sort
+ //sort
   const validSortFields = ['name', 'company', 'status', 'createdAt', 'updatedAt'];
   const field = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
   result.sort((a, b) => {
@@ -135,7 +135,7 @@ app.get('/api/leads', (req, res) => {
   });
 });
 
-// ─── GET /api/leads/stats ──────────────────────────────────────────────────────
+
 app.get('/api/leads/stats', (req, res) => {
   const total = leads.length;
   const byStatus = VALID_STATUSES.reduce((acc, s) => {
